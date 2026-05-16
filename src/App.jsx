@@ -2,7 +2,57 @@ import { useState, useEffect, useRef } from 'react'
 import { supabase } from './supabase'
 import './App.css'
 
-function App() {
+function Landing({ onNavigate }) {
+  return (
+    <div className="landing">
+      <div className="landing-content">
+        <div className="landing-avatar">T</div>
+        <h1>Hey Tovah</h1>
+        <p className="landing-tagline">Psychology. Coaching. Real talk.</p>
+        <div className="landing-buttons">
+          <button className="landing-btn" onClick={() => onNavigate('bio')}>
+            Meet Tovah
+          </button>
+          <button className="landing-btn landing-btn-primary" onClick={() => onNavigate('ask')}>
+            Ask an Anonymous Question
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Bio({ onBack }) {
+  return (
+    <div className="bio-page">
+      <button className="back-btn" onClick={onBack}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <div className="bio-content">
+        <div className="bio-avatar">T</div>
+        <h1>Tovah</h1>
+        <div className="bio-credentials">
+          <span className="credential">B.S. Psychology</span>
+          <span className="credential">Minor in Family Studies & Human Development</span>
+          <span className="credential">M.A. Forensic Psychology</span>
+          <span className="credential">Certified Life Coach</span>
+        </div>
+        <div className="bio-text">
+          <p>I go live on TikTok to have real conversations about the things people are too afraid to say out loud — relationships, self-worth, patterns, boundaries, all of it.</p>
+          <p>No judgment. No generic advice. Just honest perspective grounded in psychology and lived experience.</p>
+          <p>If you have something on your mind but don't want to say it in the comments, send me an anonymous question and I'll answer it on live.</p>
+        </div>
+        <button className="bio-cta" onClick={onBack}>
+          Ask a Question
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function AskPage({ onBack }) {
   const [question, setQuestion] = useState('')
   const [showNameField, setShowNameField] = useState(false)
   const [name, setName] = useState('')
@@ -16,6 +66,7 @@ function App() {
     supabase
       .from('submissions')
       .select('id, question, created_at')
+      .eq('approved', true)
       .order('created_at', { ascending: false })
       .limit(30)
       .then(({ data }) => {
@@ -24,8 +75,10 @@ function App() {
 
     const channel = supabase
       .channel('public:submissions')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'submissions' }, (payload) => {
-        setMessages((prev) => [...prev.slice(-29), { id: payload.new.id, question: payload.new.question, created_at: payload.new.created_at }])
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'submissions' }, (payload) => {
+        if (payload.new.approved) {
+          setMessages((prev) => [...prev.slice(-29), { id: payload.new.id, question: payload.new.question, created_at: payload.new.created_at }])
+        }
       })
       .subscribe()
 
@@ -43,7 +96,7 @@ function App() {
     if (!question.trim()) return
     setSending(true)
 
-    const payload = { question: question.trim() }
+    const payload = { question: question.trim(), approved: false }
     if (name.trim()) payload.name = name.trim()
 
     const { error } = await supabase.from('submissions').insert([payload])
@@ -52,7 +105,7 @@ function App() {
     if (!error) {
       setQuestion('')
       setJustSent(true)
-      setTimeout(() => setJustSent(false), 3000)
+      setTimeout(() => setJustSent(false), 4000)
       inputRef.current?.focus()
     }
   }
@@ -66,81 +119,91 @@ function App() {
   }
 
   return (
-    <div className="tiktok-page">
-      <div className="tiktok-container">
-        <div className="tiktok-header">
+    <div className="ask-page">
+      <div className="ask-header">
+        <button className="back-btn" onClick={onBack}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <div className="ask-header-text">
           <div className="live-badge">LIVE</div>
-          <div className="header-text">
-            <h1>Hey Tovah</h1>
-            <p>Ask anything — it's 100% anonymous</p>
+          <span>Ask Tovah anything — 100% anonymous</span>
+        </div>
+      </div>
+
+      <div className="chat-feed" ref={feedRef}>
+        {messages.length === 0 && (
+          <div className="empty-feed">
+            <p>Questions Tovah has answered will show here</p>
           </div>
-        </div>
+        )}
+        {messages.map((msg) => (
+          <div key={msg.id} className="chat-bubble">
+            <span className="bubble-avatar">?</span>
+            <div className="bubble-content">
+              <span className="bubble-text">{msg.question}</span>
+              <span className="bubble-time">{getTimeAgo(msg.created_at)}</span>
+            </div>
+          </div>
+        ))}
+        {justSent && (
+          <div className="sent-confirmation">Sent! Your question is anonymous and will appear once Tovah reviews it.</div>
+        )}
+      </div>
 
-        <div className="chat-feed" ref={feedRef}>
-          {messages.length === 0 && (
-            <div className="empty-feed">
-              <p>Be the first to ask a question!</p>
-            </div>
-          )}
-          {messages.map((msg) => (
-            <div key={msg.id} className="chat-bubble">
-              <span className="bubble-avatar">?</span>
-              <div className="bubble-content">
-                <span className="bubble-text">{msg.question}</span>
-                <span className="bubble-time">{getTimeAgo(msg.created_at)}</span>
-              </div>
-            </div>
-          ))}
-          {justSent && (
-            <div className="sent-confirmation">Sent! Tovah will see your question.</div>
-          )}
-        </div>
-
-        <div className="input-area">
-          {showNameField && (
-            <div className="name-row">
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Name (optional — only Tovah sees this)"
-                maxLength={100}
-                className="name-input"
-              />
-            </div>
-          )}
-          <form onSubmit={handleSubmit} className="chat-input-row">
-            <button
-              type="button"
-              className="name-toggle"
-              onClick={() => setShowNameField(!showNameField)}
-              title={showNameField ? 'Hide name field' : 'Add your name (optional)'}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-            </button>
+      <div className="input-area">
+        {showNameField && (
+          <div className="name-row">
             <input
-              ref={inputRef}
               type="text"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Ask Tovah anything..."
-              maxLength={2000}
-              className="chat-input"
-              disabled={sending}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Name (optional — only Tovah sees this)"
+              maxLength={100}
+              className="name-input"
             />
-            <button type="submit" className="send-btn" disabled={sending || !question.trim()}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-              </svg>
-            </button>
-          </form>
-        </div>
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="chat-input-row">
+          <button
+            type="button"
+            className="name-toggle"
+            onClick={() => setShowNameField(!showNameField)}
+            title={showNameField ? 'Hide name field' : 'Add your name (optional)'}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </button>
+          <input
+            ref={inputRef}
+            type="text"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder="Ask Tovah anything..."
+            maxLength={2000}
+            className="chat-input"
+            disabled={sending}
+          />
+          <button type="submit" className="send-btn" disabled={sending || !question.trim()}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+            </svg>
+          </button>
+        </form>
       </div>
     </div>
   )
+}
+
+function App() {
+  const [view, setView] = useState('landing')
+
+  if (view === 'bio') return <Bio onBack={() => setView('landing')} />
+  if (view === 'ask') return <AskPage onBack={() => setView('landing')} />
+  return <Landing onNavigate={setView} />
 }
 
 export default App

@@ -10,6 +10,7 @@ function Admin() {
   const [pwError, setPwError] = useState('')
   const [submissions, setSubmissions] = useState([])
   const [loading, setLoading] = useState(false)
+  const [filter, setFilter] = useState('pending')
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -21,8 +22,7 @@ function Admin() {
     }
   }
 
-  useEffect(() => {
-    if (!authed) return
+  const fetchSubmissions = () => {
     setLoading(true)
     supabase
       .from('submissions')
@@ -32,6 +32,11 @@ function Admin() {
         if (!error) setSubmissions(data || [])
         setLoading(false)
       })
+  }
+
+  useEffect(() => {
+    if (!authed) return
+    fetchSubmissions()
 
     const channel = supabase
       .channel('admin:submissions')
@@ -43,6 +48,16 @@ function Admin() {
     return () => { supabase.removeChannel(channel) }
   }, [authed])
 
+  const handleApprove = async (id) => {
+    await supabase.from('submissions').update({ approved: true }).eq('id', id)
+    setSubmissions((prev) => prev.map((s) => s.id === id ? { ...s, approved: true } : s))
+  }
+
+  const handleDeny = async (id) => {
+    await supabase.from('submissions').delete().eq('id', id)
+    setSubmissions((prev) => prev.filter((s) => s.id !== id))
+  }
+
   const formatDate = (dateStr) => {
     const d = new Date(dateStr)
     return d.toLocaleDateString('en-US', {
@@ -52,6 +67,12 @@ function Admin() {
       minute: '2-digit',
     })
   }
+
+  const filtered = submissions.filter((s) => {
+    if (filter === 'pending') return !s.approved
+    if (filter === 'approved') return s.approved
+    return true
+  })
 
   if (!authed) {
     return (
@@ -80,26 +101,45 @@ function Admin() {
         <div className="admin-top">
           <div>
             <h1>Submissions</h1>
-            <p>{submissions.length} question{submissions.length !== 1 ? 's' : ''}</p>
+            <p>{submissions.filter((s) => !s.approved).length} pending</p>
           </div>
           <button className="logout-btn" onClick={() => setAuthed(false)}>Log Out</button>
         </div>
 
+        <div className="admin-filters">
+          <button className={`filter-btn ${filter === 'pending' ? 'active' : ''}`} onClick={() => setFilter('pending')}>
+            Pending ({submissions.filter((s) => !s.approved).length})
+          </button>
+          <button className={`filter-btn ${filter === 'approved' ? 'active' : ''}`} onClick={() => setFilter('approved')}>
+            Approved ({submissions.filter((s) => s.approved).length})
+          </button>
+          <button className={`filter-btn ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>
+            All ({submissions.length})
+          </button>
+        </div>
+
         {loading ? (
           <p className="admin-loading">Loading...</p>
-        ) : submissions.length === 0 ? (
+        ) : filtered.length === 0 ? (
           <div className="admin-empty">
-            <p>No submissions yet.</p>
+            <p>{filter === 'pending' ? 'No pending questions.' : 'No submissions yet.'}</p>
           </div>
         ) : (
           <div className="admin-list">
-            {submissions.map((s) => (
-              <div key={s.id} className="admin-card">
+            {filtered.map((s) => (
+              <div key={s.id} className={`admin-card ${s.approved ? 'approved' : ''}`}>
                 <div className="admin-card-top">
                   <span className="admin-card-name">{s.name || 'Anonymous'}</span>
                   <span className="admin-card-date">{formatDate(s.created_at)}</span>
                 </div>
                 <p className="admin-card-question">{s.question}</p>
+                {!s.approved && (
+                  <div className="admin-card-actions">
+                    <button className="approve-btn" onClick={() => handleApprove(s.id)}>Approve</button>
+                    <button className="deny-btn" onClick={() => handleDeny(s.id)}>Deny</button>
+                  </div>
+                )}
+                {s.approved && <span className="approved-badge">Approved</span>}
               </div>
             ))}
           </div>

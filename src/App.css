@@ -13,32 +13,210 @@ body {
   overflow: hidden;
 }
 
-.tiktok-page {
+/* Landing */
+
+.landing {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  padding: 24px;
+}
+
+.landing-content {
+  text-align: center;
+  max-width: 360px;
+  width: 100%;
+}
+
+.landing-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fe2c55, #ff6b8a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 auto 20px;
+}
+
+.landing h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.landing-tagline {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 40px;
+}
+
+.landing-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.landing-btn {
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.landing-btn:hover {
+  opacity: 0.85;
+  transform: scale(1.02);
+}
+
+.landing-btn-primary {
+  background: #fe2c55;
+  border: none;
+  color: #fff;
+}
+
+/* Bio */
+
+.bio-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  padding: 16px 24px 40px;
+  overflow-y: auto;
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.bio-content {
+  max-width: 420px;
+  margin: 24px auto 0;
+  text-align: center;
+}
+
+.bio-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fe2c55, #ff6b8a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 auto 16px;
+}
+
+.bio-content h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.bio-credentials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.credential {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.bio-text {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.bio-text p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.bio-cta {
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  background: #fe2c55;
+  border: none;
+  color: #fff;
+  transition: opacity 0.2s;
+}
+
+.bio-cta:hover {
+  opacity: 0.85;
+}
+
+/* Ask Page */
+
+.ask-page {
   height: 100vh;
   height: 100dvh;
   display: flex;
   flex-direction: column;
   background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-  position: relative;
-  overflow: hidden;
-}
-
-.tiktok-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
 }
 
-.tiktok-header {
+.ask-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 16px 16px 12px;
-  position: relative;
-  z-index: 2;
+  padding: 12px 16px;
+}
+
+.ask-header-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .live-badge {
@@ -55,18 +233,6 @@ body {
 @keyframes pulse-live {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.7; }
-}
-
-.header-text h1 {
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
-}
-
-.header-text p {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
-  margin-top: 2px;
 }
 
 .chat-feed {
@@ -166,8 +332,6 @@ body {
 .input-area {
   padding: 8px 12px 16px;
   padding-bottom: max(16px, env(safe-area-inset-bottom));
-  position: relative;
-  z-index: 2;
 }
 
 .name-row {
@@ -272,7 +436,7 @@ body {
 }
 
 @media (max-width: 500px) {
-  .tiktok-container {
+  .ask-page {
     max-width: 100%;
   }
 }

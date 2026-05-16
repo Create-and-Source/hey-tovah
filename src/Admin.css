@@ -68,9 +68,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #1a1a1a;
+  margin-bottom: 16px;
 }
 
 .admin-top h1 {
@@ -80,7 +78,7 @@
 
 .admin-top p {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
+  color: #fe2c55;
   margin-top: 2px;
 }
 
@@ -93,6 +91,32 @@
   font-size: 13px;
   cursor: pointer;
   font-family: inherit;
+}
+
+.admin-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.filter-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.filter-btn.active {
+  background: rgba(254, 44, 85, 0.15);
+  border-color: #fe2c55;
+  color: #fe2c55;
 }
 
 .admin-loading,
@@ -114,6 +138,10 @@
   border: 1px solid #1a1a1a;
   border-radius: 12px;
   padding: 14px 16px;
+}
+
+.admin-card.approved {
+  opacity: 0.7;
 }
 
 .admin-card-top {
@@ -138,4 +166,50 @@
   font-size: 15px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 12px;
+}
+
+.admin-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.approve-btn {
+  background: rgba(105, 240, 174, 0.12);
+  border: 1px solid rgba(105, 240, 174, 0.3);
+  color: #69f0ae;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+
+.approve-btn:hover {
+  opacity: 0.8;
+}
+
+.deny-btn {
+  background: rgba(254, 44, 85, 0.12);
+  border: 1px solid rgba(254, 44, 85, 0.3);
+  color: #fe2c55;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+
+.deny-btn:hover {
+  opacity: 0.8;
+}
+
+.approved-badge {
+  font-size: 12px;
+  color: #69f0ae;
+  font-weight: 600;
 }
