@@ -225,10 +225,32 @@ body {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  background: #000;
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.ask-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.ask-bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  z-index: 1;
 }
 
 .ask-header {
@@ -236,6 +258,8 @@ body {
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
+  position: relative;
+  z-index: 2;
 }
 
 .ask-header-text {
@@ -243,7 +267,16 @@ body {
   align-items: center;
   gap: 10px;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
+  color: #555;
+}
+
+.ask-page .back-btn {
+  background: rgba(0, 0, 0, 0.06);
+  color: #000;
+}
+
+.ask-page .back-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .live-badge {
@@ -272,6 +305,8 @@ body {
   justify-content: flex-end;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  position: relative;
+  z-index: 2;
 }
 
 .chat-feed::-webkit-scrollbar {
@@ -286,7 +321,7 @@ body {
 }
 
 .empty-feed p {
-  color: rgba(255, 255, 255, 0.4);
+  color: #999;
   font-size: 14px;
 }
 
@@ -312,18 +347,19 @@ body {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  background: #e8e8e8;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
+  color: #999;
   flex-shrink: 0;
   margin-top: 2px;
 }
 
 .bubble-content {
-  background: rgba(255, 255, 255, 0.08);
+  background: #fff;
+  border: 1px solid #e8e8e8;
   border-radius: 16px;
   padding: 8px 14px;
   max-width: calc(100% - 40px);
@@ -332,21 +368,21 @@ body {
 .bubble-text {
   font-size: 14px;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.9);
+  color: #000;
   word-wrap: break-word;
 }
 
 .bubble-time {
   display: block;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.35);
+  color: #999;
   margin-top: 4px;
 }
 
 .sent-confirmation {
   text-align: center;
   font-size: 13px;
-  color: #69f0ae;
+  color: #2d5a27;
   padding: 8px;
   animation: fade-in 0.3s ease-out;
 }
@@ -359,6 +395,8 @@ body {
 .input-area {
   padding: 8px 12px 16px;
   padding-bottom: max(16px, env(safe-area-inset-bottom));
+  position: relative;
+  z-index: 2;
 }
 
 .name-row {
@@ -368,31 +406,31 @@ body {
 
 .name-input {
   width: 100%;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #fff;
+  border: 1px solid #e0e0e0;
   border-radius: 20px;
   padding: 10px 16px;
   font-size: 14px;
-  color: #fff;
+  color: #000;
   font-family: inherit;
   outline: none;
   transition: border-color 0.2s;
 }
 
 .name-input:focus {
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: #bbb;
 }
 
 .name-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: #999;
 }
 
 .chat-input-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #fff;
+  border: 1px solid #e0e0e0;
   border-radius: 24px;
   padding: 4px 4px 4px 12px;
 }
@@ -400,7 +438,7 @@ body {
 .name-toggle {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.4);
+  color: #999;
   cursor: pointer;
   padding: 6px;
   display: flex;
@@ -412,8 +450,8 @@ body {
 }
 
 .name-toggle:hover {
-  color: rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.05);
+  color: #555;
+  background: #f0f0f0;
 }
 
 .chat-input {
@@ -421,7 +459,7 @@ body {
   background: none;
   border: none;
   font-size: 15px;
-  color: #fff;
+  color: #000;
   font-family: inherit;
   outline: none;
   padding: 8px 4px;
@@ -429,7 +467,7 @@ body {
 }
 
 .chat-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: #999;
 }
 
 .chat-input:disabled {
@@ -440,7 +478,7 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #fe2c55;
+  background: #2d5a27;
   border: none;
   color: #fff;
   display: flex;
@@ -457,8 +495,8 @@ body {
 }
 
 .send-btn:disabled {
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.3);
+  background: #ccc;
+  color: #fff;
   cursor: not-allowed;
 }
 

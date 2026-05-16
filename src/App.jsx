@@ -126,6 +126,8 @@ export function AskPage() {
 
   return (
     <div className="ask-page">
+      <video className="ask-bg" src="/bg.mp4" muted playsInline preload="auto" />
+      <div className="ask-bg-overlay" />
       <div className="ask-header">
         <button className="back-btn" onClick={() => navigate('/')}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
