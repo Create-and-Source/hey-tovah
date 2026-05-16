@@ -6,7 +6,7 @@ export default function Live() {
   const [submissions, setSubmissions] = useState([])
   const listRef = useRef(null)
 
-  useEffect(() => {
+  const fetchPending = () => {
     supabase
       .from('submissions')
       .select('*')
@@ -15,6 +15,10 @@ export default function Live() {
       .then(({ data }) => {
         if (data) setSubmissions(data)
       })
+  }
+
+  useEffect(() => {
+    fetchPending()
 
     const channel = supabase
       .channel('live:submissions')
@@ -23,7 +27,12 @@ export default function Live() {
       })
       .subscribe()
 
-    return () => { supabase.removeChannel(channel) }
+    const poll = setInterval(fetchPending, 5000)
+
+    return () => {
+      supabase.removeChannel(channel)
+      clearInterval(poll)
+    }
   }, [])
 
   const handleApprove = async (id) => {
