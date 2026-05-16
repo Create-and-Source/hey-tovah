@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from './supabase'
 import './App.css'
 
-function Landing({ onNavigate }) {
+export function Landing() {
+  const navigate = useNavigate()
   return (
     <div className="landing">
       <div className="landing-content">
@@ -10,10 +12,10 @@ function Landing({ onNavigate }) {
         <h1>Hey Tovah</h1>
         <p className="landing-tagline">Psychology. Coaching. Real talk.</p>
         <div className="landing-buttons">
-          <button className="landing-btn" onClick={() => onNavigate('bio')}>
+          <button className="landing-btn" onClick={() => navigate('/bio')}>
             Meet Tovah
           </button>
-          <button className="landing-btn landing-btn-primary" onClick={() => onNavigate('ask')}>
+          <button className="landing-btn landing-btn-primary" onClick={() => navigate('/ask')}>
             Ask an Anonymous Question
           </button>
         </div>
@@ -22,10 +24,11 @@ function Landing({ onNavigate }) {
   )
 }
 
-function Bio({ onBack }) {
+export function Bio() {
+  const navigate = useNavigate()
   return (
     <div className="bio-page">
-      <button className="back-btn" onClick={onBack}>
+      <button className="back-btn" onClick={() => navigate('/')}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
@@ -44,7 +47,7 @@ function Bio({ onBack }) {
           <p>No judgment. No generic advice. Just honest perspective grounded in psychology and lived experience.</p>
           <p>If you have something on your mind but don't want to say it in the comments, send me an anonymous question and I'll answer it on live.</p>
         </div>
-        <button className="bio-cta" onClick={onBack}>
+        <button className="bio-cta" onClick={() => navigate('/ask')}>
           Ask a Question
         </button>
       </div>
@@ -52,7 +55,8 @@ function Bio({ onBack }) {
   )
 }
 
-function AskPage({ onBack }) {
+export function AskPage() {
+  const navigate = useNavigate()
   const [question, setQuestion] = useState('')
   const [showNameField, setShowNameField] = useState(false)
   const [name, setName] = useState('')
@@ -121,7 +125,7 @@ function AskPage({ onBack }) {
   return (
     <div className="ask-page">
       <div className="ask-header">
-        <button className="back-btn" onClick={onBack}>
+        <button className="back-btn" onClick={() => navigate('/')}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
@@ -197,13 +201,3 @@ function AskPage({ onBack }) {
     </div>
   )
 }
-
-function App() {
-  const [view, setView] = useState('landing')
-
-  if (view === 'bio') return <Bio onBack={() => setView('landing')} />
-  if (view === 'ask') return <AskPage onBack={() => setView('landing')} />
-  return <Landing onNavigate={setView} />
-}
-
-export default App
