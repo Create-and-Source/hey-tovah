@@ -32,6 +32,15 @@ function Admin() {
         if (!error) setSubmissions(data || [])
         setLoading(false)
       })
+
+    const channel = supabase
+      .channel('admin:submissions')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'submissions' }, (payload) => {
+        setSubmissions((prev) => [payload.new, ...prev])
+      })
+      .subscribe()
+
+    return () => { supabase.removeChannel(channel) }
   }, [authed])
 
   const formatDate = (dateStr) => {
@@ -39,7 +48,6 @@ function Admin() {
     return d.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
-      year: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
     })
@@ -47,26 +55,19 @@ function Admin() {
 
   if (!authed) {
     return (
-      <div className="page">
-        <div className="container">
-          <div className="header">
-            <h1>Admin</h1>
-            <p className="subtitle">Enter password to view submissions</p>
-          </div>
-          <form onSubmit={handleLogin} className="form">
-            <div className="field">
-              <label htmlFor="pw">Password</label>
-              <input
-                id="pw"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter admin password"
-                required
-              />
-            </div>
-            {pwError && <p className="error">{pwError}</p>}
-            <button type="submit" className="btn">Enter</button>
+      <div className="admin-page">
+        <div className="admin-login">
+          <h1>Admin</h1>
+          <form onSubmit={handleLogin}>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+            />
+            {pwError && <p className="pw-error">{pwError}</p>}
+            <button type="submit">Enter</button>
           </form>
         </div>
       </div>
@@ -74,31 +75,31 @@ function Admin() {
   }
 
   return (
-    <div className="page">
-      <div className="admin-container">
-        <div className="admin-header">
+    <div className="admin-page">
+      <div className="admin-panel">
+        <div className="admin-top">
           <div>
             <h1>Submissions</h1>
-            <p className="subtitle">{submissions.length} question{submissions.length !== 1 ? 's' : ''} submitted</p>
+            <p>{submissions.length} question{submissions.length !== 1 ? 's' : ''}</p>
           </div>
-          <button className="btn btn-small" onClick={() => setAuthed(false)}>Log Out</button>
+          <button className="logout-btn" onClick={() => setAuthed(false)}>Log Out</button>
         </div>
 
         {loading ? (
-          <p className="loading">Loading...</p>
+          <p className="admin-loading">Loading...</p>
         ) : submissions.length === 0 ? (
-          <div className="empty">
-            <p>No submissions yet. Share your form link to start collecting questions.</p>
+          <div className="admin-empty">
+            <p>No submissions yet.</p>
           </div>
         ) : (
-          <div className="submissions-list">
+          <div className="admin-list">
             {submissions.map((s) => (
-              <div key={s.id} className="submission-card">
-                <div className="card-header">
-                  <span className="card-name">{s.name}</span>
-                  <span className="card-date">{formatDate(s.created_at)}</span>
+              <div key={s.id} className="admin-card">
+                <div className="admin-card-top">
+                  <span className="admin-card-name">{s.name || 'Anonymous'}</span>
+                  <span className="admin-card-date">{formatDate(s.created_at)}</span>
                 </div>
-                <p className="card-question">{s.question}</p>
+                <p className="admin-card-question">{s.question}</p>
               </div>
             ))}
           </div>

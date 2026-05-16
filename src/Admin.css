@@ -1,77 +1,141 @@
-.admin-container {
-  width: 100%;
-  max-width: 720px;
-}
-
-.admin-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 32px;
-}
-
-.admin-header h1 {
-  font-size: 32px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.5px;
+.admin-page {
+  min-height: 100vh;
+  background: #0a0a0a;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   color: #fff;
-  margin-bottom: 4px;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
 }
 
-.btn-small {
-  padding: 8px 16px;
-  font-size: 13px;
-}
-
-.loading {
-  color: #888;
+.admin-login {
+  margin-top: 20vh;
   text-align: center;
-  padding: 40px 0;
+  width: 100%;
+  max-width: 320px;
 }
 
-.empty {
-  text-align: center;
-  padding: 60px 20px;
-  color: #666;
-  border: 1px dashed #2A2A2A;
-  border-radius: 12px;
+.admin-login h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
 }
 
-.submissions-list {
+.admin-login form {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.submission-card {
-  background: #1A1A1A;
-  border: 1px solid #2A2A2A;
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.card-name {
-  font-weight: 700;
+.admin-login input {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 12px 16px;
   font-size: 15px;
   color: #fff;
+  font-family: inherit;
+  outline: none;
 }
 
-.card-date {
-  font-size: 12px;
-  color: #666;
+.admin-login input:focus {
+  border-color: #444;
 }
 
-.card-question {
+.admin-login button {
+  background: #fe2c55;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
   font-size: 15px;
-  color: #ccc;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.pw-error {
+  color: #fe2c55;
+  font-size: 13px;
+}
+
+.admin-panel {
+  width: 100%;
+  max-width: 640px;
+}
+
+.admin-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.admin-top h1 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.admin-top p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 2px;
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.admin-loading,
+.admin-empty p {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  text-align: center;
+  padding: 40px 0;
+}
+
+.admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-card {
+  background: #111;
+  border: 1px solid #1a1a1a;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.admin-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.admin-card-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fe2c55;
+}
+
+.admin-card-date {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.admin-card-question {
+  font-size: 15px;
   line-height: 1.5;
-  white-space: pre-wrap;
+  color: rgba(255, 255, 255, 0.85);
 }
