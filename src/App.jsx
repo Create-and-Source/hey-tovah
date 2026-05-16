@@ -7,6 +7,8 @@ export function Landing() {
   const navigate = useNavigate()
   return (
     <div className="landing">
+      <video className="bg-video" src="/bg.mp4" autoPlay muted loop playsInline />
+      <div className="bg-overlay" />
       <div className="landing-content">
         <img src="/tovah.jpg" alt="Tovah" className="landing-avatar" />
         <h1>Hey Tovah</h1>
