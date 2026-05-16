@@ -103,7 +103,7 @@ body {
 }
 
 .landing-btn-primary {
-  background: #2d5a27;
+  background: #1a3318;
   border: none;
   color: #fff;
 }
@@ -208,7 +208,7 @@ body {
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  background: #2d5a27;
+  background: #1a3318;
   border: none;
   color: #fff;
   transition: opacity 0.2s;
@@ -382,7 +382,7 @@ body {
 .sent-confirmation {
   text-align: center;
   font-size: 13px;
-  color: #2d5a27;
+  color: #1a3318;
   padding: 8px;
   animation: fade-in 0.3s ease-out;
 }
@@ -478,7 +478,7 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #2d5a27;
+  background: #1a3318;
   border: none;
   color: #fff;
   display: flex;
