@@ -1,0 +1,143 @@
+.live-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #fff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+.live-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.live-indicator {
+  background: #d32f2f;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  animation: pulse-live 2s ease-in-out infinite;
+}
+
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.live-count {
+  font-size: 14px;
+  color: #666;
+}
+
+.live-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.live-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.live-empty p {
+  color: #999;
+  font-size: 15px;
+}
+
+.live-card {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 14px 16px;
+  animation: card-in 0.3s ease-out;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.live-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.live-card-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+.live-card-time {
+  font-size: 12px;
+  color: #999;
+}
+
+.live-card-question {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  margin-bottom: 12px;
+}
+
+.live-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.live-approve {
+  background: #1a3318;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+
+.live-approve:hover {
+  opacity: 0.85;
+}
+
+.live-deny {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #666;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.live-deny:hover {
+  border-color: #d32f2f;
+  color: #d32f2f;
+}
