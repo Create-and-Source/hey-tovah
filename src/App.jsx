@@ -6,7 +6,7 @@ function Landing({ onNavigate }) {
   return (
     <div className="landing">
       <div className="landing-content">
-        <div className="landing-avatar">T</div>
+        <img src="/tovah.jpg" alt="Tovah" className="landing-avatar" />
         <h1>Hey Tovah</h1>
         <p className="landing-tagline">Psychology. Coaching. Real talk.</p>
         <div className="landing-buttons">
@@ -31,7 +31,7 @@ function Bio({ onBack }) {
         </svg>
       </button>
       <div className="bio-content">
-        <div className="bio-avatar">T</div>
+        <img src="/tovah.jpg" alt="Tovah" className="bio-avatar" />
         <h1>Tovah</h1>
         <div className="bio-credentials">
           <span className="credential">B.S. Psychology</span>
